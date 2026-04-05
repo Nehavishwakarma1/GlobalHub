@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobalHub - AI Translator</title>
+
+<style>
+body { font-family:'Poppins', sans-serif; margin:0; padding:0; background:#f0f4f8; display:flex; flex-direction:column; align-items:center; }
+header { background:#0077b6; color:white; width:100%; text-align:center; padding:20px; }
+section { max-width:800px; width:90%; margin:20px auto; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); }
+textarea, select, button { width:100%; padding:12px; margin-top:10px; border-radius:8px; border:1px solid #ccc; font-size:16px; }
+button { background:#0077b6; color:white; border:none; cursor:pointer; }
+button:hover { background:#023e8a; }
+.swap-btn { width:60px; margin:10px auto; display:block; background:#ff8c00; border-radius:50%; }
+</style>
+
+</head>
+
+<body>
+
+<header>
+  <h1>🌐 GlobalHub Translator</h1>
+</header>
+
+<section>
+  <textarea id="sourceText" placeholder="Enter text..."></textarea>
+
+  <select id="sourceLang"></select>
+  <select id="targetLang"></select>
+
+  <button class="swap-btn" onclick="swapLanguages()">⇅</button>
+
+  <button onclick="translateText()">Translate</button>
+</section>
+
+<section>
+  <h3>Translation:</h3>
+  <p id="translatedText">Your translated text will appear here</p>
+  <button onclick="copyText()">Copy</button>
+</section>
+
+<script>
+
+// languages
+const languages = [
+  {code:"auto", name:"Detect Language"},
+  {code:"en", name:"English"},
+  {code:"hi", name:"Hindi"},
+  {code:"es", name:"Spanish"},
+  {code:"fr", name:"French"}
+];
+
+const sourceLang = document.getElementById("sourceLang");
+const targetLang = document.getElementById("targetLang");
+const sourceText = document.getElementById("sourceText");
+const result = document.getElementById("translatedText");
+
+// fill dropdown
+languages.forEach(lang => {
+  sourceLang.innerHTML += `<option value="${lang.code}">${lang.name}</option>`;
+  targetLang.innerHTML += `<option value="${lang.code}">${lang.name}</option>`;
+});
+
+targetLang.value = "en";
+
+// swap
+function swapLanguages(){
+  let temp = sourceLang.value;
+  sourceLang.value = targetLang.value;
+  targetLang.value = temp;
+}
+
+// translate
+async function translateText(){
+  let text = sourceText.value.trim();
+  if(!text){
+    result.innerText = "Enter text first!";
+    return;
+  }
+
+  result.innerText = "Translating...";
+
+  try{
+    let response = await fetch(
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang.value}|${targetLang.value}`
+    );
+
+    let data = await response.json();
+
+    result.innerText = data.responseData.translatedText;
+
+  }catch(err){
+    result.innerText = "Error occurred!";
+  }
+}
+
+// copy
+function copyText(){
+  navigator.clipboard.writeText(result.innerText);
+  alert("Copied!");
+}
+
+</script>
+
+</body>
+</html>

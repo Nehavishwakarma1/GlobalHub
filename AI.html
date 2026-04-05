@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobalHub AI</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f4f6f9;
+}
+
+header {
+  background: #0077b6;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+.chat-container {
+  max-width: 600px;
+  margin: 30px auto;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.chat-box {
+  height: 300px;
+  overflow-y: auto;
+}
+
+.message {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  max-width: 80%;
+}
+
+.user {
+  background: #0077b6;
+  color: white;
+  margin-left: auto;
+}
+
+.bot {
+  background: #e0e0e0;
+}
+
+.input-box {
+  display: flex;
+  margin-top: 10px;
+}
+
+.input-box input {
+  flex: 1;
+  padding: 10px;
+}
+
+.input-box button {
+  padding: 10px;
+  background: #0077b6;
+  color: white;
+  border: none;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+  <h2>🌍 GlobalHub AI Assistant</h2>
+</header>
+
+<div class="chat-container">
+
+  <div class="chat-box" id="chatBox">
+    <div class="message bot">Hello! Ask me anything about visas 🌍</div>
+  </div>
+
+  <div class="input-box">
+    <input type="text" id="userInput" placeholder="Ask your question..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+</div>
+
+<script>
+
+async function sendMessage() {
+  const input = document.getElementById("userInput");
+  const text = input.value.trim();
+
+  if(text === "") return;
+
+  addMessage(text, "user");
+
+  const response = await fetch("/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ message: text })
+  });
+
+  const data = await response.json();
+
+  addMessage(data.reply, "bot");
+
+  input.value = "";
+}
+
+function addMessage(text, type) {
+  const chatBox = document.getElementById("chatBox");
+
+  const msg = document.createElement("div");
+  msg.className = "message " + type;
+  msg.innerText = text;
+
+  chatBox.appendChild(msg);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+</script>
+
+</body>
+</html>

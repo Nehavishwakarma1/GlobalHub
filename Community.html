@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobalHub Community</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* HERO */
+.community-hero {
+  height: 50vh;
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+  url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.community-hero h1 {
+  font-size: 38px;
+}
+
+/* MAIN */
+.community-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+/* POST BOX */
+.post-box {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.post-box textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.post-box button {
+  padding: 10px 20px;
+  background: #0077b6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.post-box button:hover {
+  background: #023e8a;
+}
+
+/* POSTS */
+.post {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  transition: 0.3s;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.post:hover {
+  transform: translateY(-5px);
+}
+
+.post h4 {
+  margin-bottom: 5px;
+}
+
+.post p {
+  font-size: 14px;
+  color: #555;
+}
+
+/* USER LIST */
+.users {
+  margin-top: 40px;
+}
+
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.user-card {
+  background: #f4f6f9;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.user-card:hover {
+  background: #e0f0ff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">🌍 GlobalHub</div>
+  <nav>
+    <ul>
+       <li><a href="home.html">Home</a></li>
+        <li><a href="aboutUs.html">About Us</a></li>
+        <li><a href="contectUs.html">Contect Us</a></li>
+        <li><a href="Community.html">Community</a></li>
+        <li><a href="signIn.html">Sign in</a></li>
+        <li><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="community-hero">
+  <h1>GlobalHub Community 👥</h1>
+</section>
+
+<!-- MAIN -->
+<section class="community-container">
+
+  <!-- Add Post -->
+  <div class="post-box">
+    <h3>Share Your Experience</h3>
+    <textarea id="postInput" rows="3" placeholder="Write something..."></textarea>
+    <button onclick="addPost()">Post</button>
+  </div>
+
+  <!-- Posts -->
+  <div id="posts">
+
+    <div class="post">
+      <h4>Neha 🌍</h4>
+      <p>Planning to study in Canada! Any suggestions?</p>
+    </div>
+
+    <div class="post">
+      <h4>Rahul ✈️</h4>
+      <p>Visa process for Germany is smooth. Feel free to ask!</p>
+    </div>
+
+  </div>
+
+  <!-- Users -->
+  <div class="users">
+    <h3>Active Members</h3>
+
+    <div class="user-grid">
+      <div class="user-card">Neha</div>
+      <div class="user-card">Rahul</div>
+      <div class="user-card">Aisha</div>
+      <div class="user-card">John</div>
+      <div class="user-card">Priya</div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 GlobalHub | Designed by Neha Vishwakarma</p>
+</footer>
+
+<!-- SCRIPT -->
+<script>
+function addPost() {
+  const input = document.getElementById("postInput");
+  const text = input.value.trim();
+
+  if(text === "") {
+    alert("Please write something!");
+    return;
+  }
+
+  const postDiv = document.createElement("div");
+  postDiv.className = "post";
+  postDiv.innerHTML = `
+    <h4>You 🧑</h4>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("posts").prepend(postDiv);
+  input.value = "";
+}
+</script>
+
+</body>
+</html>

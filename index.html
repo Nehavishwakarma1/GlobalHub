@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobalHub - Advanced Visa Checker</title>
+<style>
+  body { font-family:'Poppins', sans-serif; margin:0; padding:0; background:#f0f4f8; color:#333; }
+  header { text-align:center; padding:20px; background:#0077b6; color:white; }
+  header h1 { margin:0; }
+  section.visa-form { max-width:700px; margin:30px auto; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.2);}
+  label { display:block; margin-top:15px; font-weight:bold; }
+  select, button { width:100%; padding:10px; margin-top:8px; border-radius:8px; border:1px solid #ccc; font-size:16px; }
+  button { background:#0077b6; color:white; border:none; cursor:pointer; margin-top:20px; }
+  button:hover { background:#023e8a; }
+  section.result { max-width:700px; margin:20px auto; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); }
+  ul { margin:10px 0 10px 20px; }
+  footer { text-align:center; padding:15px; background:#0077b6; color:white; margin-top:30px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌐 GlobalHub - Advanced Visa Checker</h1>
+  <p>Detailed visa requirements for international travel</p>
+</header>
+
+<section class="visa-form">
+  <h2>Check Your Visa Requirements</h2>
+  <form id="visaForm">
+    <label for="from">From Country:</label>
+    <select id="from"></select>
+
+    <label for="to">To Country:</label>
+    <select id="to"></select>
+
+    <label for="purpose">Purpose of Travel:</label>
+    <select id="purpose">
+      <option value="">Select</option>
+      <option value="tourist">Tourist</option>
+      <option value="business">Business</option>
+      <option value="study">Study</option>
+      <option value="work">Work</option>
+    </select>
+
+    <label for="visaType">Visa Type:</label>
+    <select id="visaType">
+      <option value="">Select</option>
+      <option value="standard">Standard Visa</option>
+      <option value="eVisa">eVisa</option>
+      <option value="onArrival">Visa on Arrival</option>
+      <option value="visaFree">Visa-Free</option>
+    </select>
+
+    <button type="button" onclick="showRequirements()">Check Requirements</button>
+  </form>
+</section>
+
+<section class="result" id="result">
+  <h3>Visa Requirements</h3>
+  <p>Select all fields to view visa requirements.</p>
+</section>
+
+<footer>
+  <p>© 2025 GlobalHub | Helping you move smarter across the world 🌎</p>
+</footer>
+
+<script>
+  // All countries of the world (195+ countries; shortened here for example)
+  const countries = [
+    "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
+    "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan",
+    "Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia",
+    "Cameroon","Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica",
+    "Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt",
+    "El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France","Gabon",
+    "Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana",
+    "Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel",
+    "Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos",
+    "Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi",
+    "Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova",
+    "Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands",
+    "New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway","Oman","Pakistan","Palau",
+    "Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania",
+    "Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal",
+    "Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea",
+    "South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria","Taiwan","Tajikistan",
+    "Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu",
+    "Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela",
+    "Vietnam","Yemen","Zambia","Zimbabwe"
+  ];
+
+  const fromSelect = document.getElementById('from');
+  const toSelect = document.getElementById('to');
+
+  countries.forEach(c => {
+    fromSelect.innerHTML += `<option value="${c}">${c}</option>`;
+    toSelect.innerHTML += `<option value="${c}">${c}</option>`;
+  });
+
+  // Sample detailed visa info with place to apply
+  const visaData = {
+    "India": {
+      "United States": {
+        "tourist": {
+          "standard": { required:true, duration:"6 months", docs:["Passport","Visa Form","Photos","Travel Itinerary","Financial Proof"], processing:"15 days", fees:"$160", place:"US Embassy, New Delhi or Consulates in Mumbai, Chennai, Hyderabad" },
+          "eVisa": { required:false, duration:"N/A", docs:[], processing:"N/A", fees:"N/A", place:"N/A" }
+        },
+        "business": {
+          "standard": { required:true, duration:"6 months", docs:["Passport","Business Invitation","Visa Form","Financial Proof"], processing:"15 days", fees:"$160", place:"US Embassy/Consulates" }
+        }
+      },
+      "Nepal": {
+        "tourist": {
+          "visaFree": { required:false, duration:"90 days", docs:["Passport"], processing:"Immediate", fees:"None", place:"N/A" },
+          "onArrival": { required:false, duration:"90 days", docs:["Passport"], processing:"Immediate", fees:"$25", place:"Immigration Desk at Kathmandu Airport" }
+        }
+      }
+    },
+    "United States": {
+      "India": {
+        "tourist": {
+          "standard": { required:true, duration:"6 months", docs:["Passport","Visa Form","Photos","Travel Itinerary","Financial Proof"], processing:"15 days", fees:"$160", place:"Indian Embassy, Washington DC or Consulates in NYC, Chicago, San Francisco" }
+        }
+      }
+    }
+  };
+
+  function showRequirements() {
+    const from = document.getElementById('from').value;
+    const to = document.getElementById('to').value;
+    const purpose = document.getElementById('purpose').value;
+    const visaType = document.getElementById('visaType').value;
+    const resultDiv = document.getElementById('result');
+
+    if (from && to && purpose && visaType) {
+      let data = visaData[from] && visaData[from][to] && visaData[from][to][purpose] && visaData[from][to][purpose][visaType];
+      
+      if (!data) {
+        resultDiv.innerHTML = `<p style="color:red;">⚠️ No specific visa data available for ${from} → ${to} (${purpose}, ${visaType}). Showing general requirements.</p>
+        <ul>
+          <li>Valid Passport (minimum 6 months validity)</li>
+          <li>Completed Visa Application Form</li>
+          <li>Recent Passport-size Photographs</li>
+          <li>Proof of Financial Means</li>
+          <li>Travel Insurance Coverage</li>
+          <li>Place to Apply: Embassy/Consulate of the destination country</li>
+        </ul>`;
+        return;
+      }
+
+      resultDiv.innerHTML = `
+        <h3>${purpose.charAt(0).toUpperCase() + purpose.slice(1)} - ${visaType} Visa from ${from} → ${to}</h3>
+        <ul>
+          <li>Visa Required: ${data.required ? "Yes" : "No"}</li>
+          <li>Duration of Stay: ${data.duration}</li>
+          <li>Documents Required: ${data.docs.join(", ")}</li>
+          <li>Processing Time: ${data.processing}</li>
+          <li>Visa Fees: ${data.fees}</li>
+          <li>Place to Apply Visa: ${data.place}</li>
+        </ul>
+      `;
+    } else {
+      resultDiv.innerHTML = "<p style='color:red;'>⚠️ Please select all fields to view visa requirements.</p>";
+    }
+  }
+</script>
+
+</body>
+</html>

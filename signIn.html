@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - GlobalHub</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* Background */
+body {
+  background: linear-gradient(to right, #0077b6, #00b4d8);
+}
+
+/* Container */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Card */
+.login-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 320px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+/* Title */
+.login-card h2 {
+  margin-bottom: 20px;
+}
+
+/* Inputs */
+.login-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Button */
+.login-card button {
+  width: 100%;
+  padding: 12px;
+  background: #0077b6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.login-card button:hover {
+  background: #023e8a;
+}
+
+/* Options */
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+/* Link */
+.signup-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.signup-link a {
+  color: #0077b6;
+  text-decoration: none;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* Show Password */
+.show-pass {
+  text-align: left;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+  <div class="login-card">
+
+    <h2>Login to GlobalHub 🌍</h2>
+
+    <input type="email" placeholder="Email" required>
+    
+    <input type="password" id="password" placeholder="Password" required>
+
+    <div class="show-pass">
+      <input type="checkbox" onclick="togglePassword()"> Show Password
+    </div>
+
+    <div class="options">
+      <label><input type="checkbox"> Remember Me</label>
+      <a href="#">Forgot Password?</a>
+    </div>
+
+    <button onclick="login()">Login</button>
+
+    <div class="signup-link">
+      Don't have an account? <a href="signup.html">Sign Up</a>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function togglePassword() {
+  const pass = document.getElementById("password");
+  pass.type = pass.type === "password" ? "text" : "password";
+}
+
+
+function login() {
+  // Redirect to home page
+  window.location.href = "Index-home.html";
+  alert("Login successful! (Demo)");
+}
+</script>
+
+
+</body>
+</html>
