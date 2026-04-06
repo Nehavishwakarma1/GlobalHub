@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f4f6f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.quiz-container {
+  background: white;
+  padding: 20px;
+  width: 400px;
+  border-radius: 10px;
+}
+
+.option {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: #eee;
+}
+
+.selected {
+  background: #90e0ef;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="quiz-container">
+  <h2 id="question"></h2>
+  <div id="options"></div>
+  <button onclick="nextQuestion()">Next</button>
+  <p id="result"></p>
+</div>
+
+<script>
+
+const quiz = [
+  {
+    question: "Which country offers Schengen Visa?",
+    options: ["USA", "Germany", "India", "Australia"],
+    answer: "Germany"
+  },
+  {
+    question: "Currency of Japan?",
+    options: ["Dollar", "Yen", "Euro", "Rupee"],
+    answer: "Yen"
+  }
+];
+
+let currentQ = 0;
+let selected = null;
+let score = 0;
+
+function loadQuestion() {
+  document.getElementById("question").innerText = quiz[currentQ].question;
+
+  let optionsHTML = "";
+  quiz[currentQ].options.forEach(option => {
+    optionsHTML += `<div class="option" onclick="selectAnswer(this, '${option}')">${option}</div>`;
+  });
+
+  document.getElementById("options").innerHTML = optionsHTML;
+}
+
+function selectAnswer(element, answer) {
+  selected = answer;
+
+  document.querySelectorAll(".option").forEach(opt => {
+    opt.classList.remove("selected");
+  });
+
+  element.classList.add("selected");
+}
+
+function nextQuestion() {
+  if (!selected) {
+    alert("Select an option");
+    return;
+  }
+
+  if (selected === quiz[currentQ].answer) {
+    score++;
+  }
+
+  selected = null;
+  currentQ++;
+
+  if (currentQ < quiz.length) {
+    loadQuestion();
+  } else {
+    document.getElementById("question").innerText = "Quiz Finished";
+    document.getElementById("options").innerHTML = "";
+    document.getElementById("result").innerText = "Score: " + score;
+  }
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
