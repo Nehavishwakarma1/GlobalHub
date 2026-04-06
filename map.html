@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobalHub Map</title>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+}
+
+.header {
+  background: #0077b6;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+.search-box {
+  padding: 10px;
+  text-align: center;
+  background: #f4f6f9;
+}
+
+input {
+  width: 60%;
+  padding: 10px;
+}
+
+button {
+  padding: 10px;
+  background: #0077b6;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#map {
+  height: 80vh;
+  width: 100%;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+  <h2>🌍 GlobalHub Map</h2>
+</div>
+
+<div class="search-box">
+  <input type="text" id="location" placeholder="Enter location (e.g., Mumbai, London)">
+  <button onclick="searchLocation()">Search</button>
+</div>
+
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+let map = L.map('map').setView([20.5937, 78.9629], 5); // India default
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap'
+}).addTo(map);
+
+let marker;
+
+// Search function using free API
+function searchLocation() {
+  const location = document.getElementById("location").value;
+
+  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${location}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.length > 0) {
+        const lat = data[0].lat;
+        const lon = data[0].lon;
+
+        map.setView([lat, lon], 12);
+
+        if (marker) {
+          map.removeLayer(marker);
+        }
+
+        marker = L.marker([lat, lon]).addTo(map)
+          .bindPopup(location)
+          .openPopup();
+
+      } else {
+        alert("Location not found ❌");
+      }
+    })
+    .catch(() => {
+      alert("Error fetching location ❌");
+    });
+}
+</script>
+
+</body>
+</html>
